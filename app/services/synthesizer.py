@@ -17,12 +17,13 @@ class SynthesizedResponse(BaseModel):
 class Synthesizer:
     SYSTEM_PROMPT = """
     # Role and Purpose
-    You are an AI assistant for an e-commerce FAQ system. Your task is to synthesize a coherent and helpful answer 
+    You are an AI assistant specialized in vocational and academic guidance.  
+    Your task is to synthesize a coherent and helpful answer 
     based on the given question and relevant context retrieved from a knowledge database.
 
     # Guidelines:
     1. Provide a clear and concise answer to the question.
-    2. Use only the information from the relevant context to support your answer.
+    2. Use **only** the information from the relevant context to support your answer.
     3. The context is retrieved based on cosine similarity, so some information might be missing or irrelevant.
     4. Be transparent when there is insufficient information to fully answer the question.
     5. Do not make up or infer information not present in the provided context.
@@ -45,7 +46,7 @@ class Synthesizer:
             A SynthesizedResponse containing thought process and answer.
         """
         context_str = Synthesizer.dataframe_to_json(
-            context, columns_to_keep=["content", "category"]
+            context, columns_to_keep=["content"]
         )
 
         messages = [

@@ -8,7 +8,7 @@ from timescale_vector.client import uuid_from_time
 vec = VectorStore()
 
 # Read the CSV file
-df = pd.read_csv("../data/faq_dataset.csv", sep=";")
+df = pd.read_csv("../data/data_clean_all.csv", sep=",")
 
 
 # Prepare data for insertion
@@ -32,13 +32,36 @@ def prepare_record(row):
 
         This is useful when your content already has an associated datetime.
     """
-    content = f"Question: {row['question']}\nAnswer: {row['answer']}"
+    content = f"""
+        career: {row['career']}\n
+        total_students: {row['total_students']}\n
+        new_graduates_number: {row['new_graduates_number']}\n
+        public_cost: {row['public_cost']}\n
+        private_cost: {row['private_cost']}\n
+        public_quality_rating: {row['public_quality_rating']}\n
+        private_quality_rating: {row['private_quality_rating']}\n
+        occupation_rate: {row['occupation_rate']}\n
+        unemployment_rate: {row['unemployment_rate']}\n
+        informality_rate: {row['informality_rate']}\n
+        quality_employment_probability: {row['quality_employment_probability']}\n
+        average_salary: {row['average_salary']}\n
+        career_rank: {row['career_rank']}\n
+        women_salary: {row['women_salary']}\n
+        men_salary: {row['men_salary']}\n
+        under_30_salary: {row['under_30_salary']}\n
+        over_30_salary: {row['over_30_salary']}\n
+        formal_salary: {row['formal_salary']}\n
+        informal_salary: {row['informal_salary']}\n
+        postgrad_percentage: {row['postgrad_percentage']}\n
+        postgrad_salary: {row['postgrad_salary']}\n
+        salary_increase: {row['salary_increase']}\n
+    """
     embedding = vec.get_embedding(content)
     return pd.Series(
         {
             "id": str(uuid_from_time(datetime.now())),
             "metadata": {
-                "category": row["category"],
+                "career": row["career"],
                 "created_at": datetime.now().isoformat(),
             },
             "contents": content,
